@@ -1,0 +1,51 @@
+/* 	Dinning philosophers problem */
+
+/* 	Extracted from Operating Systems. Internals and Design Principles.
+	7th Edition. William Stallings */
+
+/*
+	The dinning philosophers problem deals with the management of limited resources
+	of the operating system and disputing processes that need the resource. 
+	This example uses semaphores to control de access and use of the resources. It
+	eliminates the possibility of deadlock and starvation, but it is not realy optimal
+	because not all philosophers are at the table at the same time. They would have to rotate
+	the places and just one eat at a time. 
+
+	One possible solution could be allowing three philosophers to eat at the same time, but 
+	they could be seating side by side, but alternating places.
+
+*/
+
+// a vector to control which forks are available
+semaphore fork[5] = {1};								
+
+// if at most 4 philosophers can access the table at a time
+// at least one of them gets two forks
+semaphore room = {4};
+
+// represents the philosopher									
+int i;
+
+void philosopher ( int i )
+{
+	while( true )
+	{
+		think();
+		wait( room );						// wait for access to the table
+		wait( fork[ i ]);					// wait for fork on left
+		wait( fork[ ( ++i ) mod 5 ] );		// wait for fork on right, i.e., next position true on the vector
+		eat();								// now with two forks, eat. Access the resource
+		signal( fork[ ( ++i ) mod 5] );		// liberate one fork. Tell other processes it has finished using one fork
+		signal( fork[ i ] );				// do the same for the other fork
+		signal( room )						// liberate space on the table. Enable other process to access the resource
+	}
+}
+
+void main()
+{
+
+	// send philosophers to the table. Coordinate processes to resources.
+	parbegin( 	philosopher( 0 ),  philosopher( 1 )
+				philosopher( 2 ),  philosopher( 3 )
+				philosopher( 4 ));
+}
