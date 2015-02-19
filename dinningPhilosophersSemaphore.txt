@@ -31,13 +31,13 @@ void philosopher ( int i )
 	while( true )
 	{
 		think();
-		wait( room );						// wait for access to the table
-		wait( fork[ i ]);					// wait for fork on left
-		wait( fork[ ( ++i ) mod 5 ] );		// wait for fork on right, i.e., next position true on the vector
-		eat();								// now with two forks, eat. Access the resource
-		signal( fork[ ( ++i ) mod 5] );		// liberate one fork. Tell other processes it has finished using one fork
-		signal( fork[ i ] );				// do the same for the other fork
-		signal( room )						// liberate space on the table. Enable other process to access the resource
+		wait( room );			        // wait for access to the table
+		wait( fork[ i ]);			    // wait for fork on left
+		wait( fork[ ( ++i ) mod 5 ] );	// wait for fork on right, i.e., next position true on the vector
+		eat();					        // now with two forks, eat. Access the resource
+		signal( fork[ ( ++i ) mod 5] );	// liberate one fork. Tell other processes it has finished using one fork
+		signal( fork[ i ] );			// do the same for the other fork
+		signal( room )				    // liberate space on the table. Enable other process to access the resource
 	}
 }
 
@@ -49,3 +49,6 @@ void main()
 				philosopher( 2 ),  philosopher( 3 )
 				philosopher( 4 ));
 }
+
+
+
