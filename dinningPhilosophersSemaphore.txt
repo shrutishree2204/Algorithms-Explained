@@ -45,7 +45,7 @@ void main()
 {
 
 	// send philosophers to the table. Coordinate processes to resources.
-	parbegin( 	philosopher( 0 ),  philosopher( 1 )
-				philosopher( 2 ),  philosopher( 3 )
-				philosopher( 4 ));
+	parbegin( philosopher( 0 ),  philosopher( 1 )
+		  philosopher( 2 ),  philosopher( 3 )
+		  philosopher( 4 ));
 }
