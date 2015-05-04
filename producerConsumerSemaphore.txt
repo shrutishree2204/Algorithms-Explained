@@ -1,0 +1,32 @@
+/* producer/consumer problem - circular buffer implementation */
+
+semaphore BF, BE, access;
+BF = 20;                    // sife of buffer full
+BE = 0;                     // buffer empty
+access = 1;                 // only one process is given access at a time
+
+void producer() 
+{
+	while( true )
+	{
+		produce();          // do its job, produce
+		wait( BF );         // if buffer is full wait
+		wait( access );     // wait for access to the buffer
+		put();              // put data in buffer
+		signal( access );   // warn other process that the access is free
+		signal( BE )        // if buffer is empty warn other processes so they wait
+	}
+}
+
+void consumer()
+{
+	while( true )
+	{
+		wait( BE )          // if buffer is empty don't try to read from it
+		wait( access )      // wait for free access
+		get()               // get data
+		signal( access )    // warn other processes that the access is free
+		signal( BF )        // tell the producer the buffer is full
+		consume();          // do its job, consume
+	}
+}

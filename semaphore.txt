@@ -1,0 +1,43 @@
+/* semaphore */
+
+/* 	Extracted from Operating Systems. Internals and Design Principles.
+	7th Edition. William Stallings */
+	
+
+struct semaphore {
+	int count;
+	queueType queue;
+}
+
+/* processes always call wait when want to access a shared resource.
+   The semaphore controls the access to the resource. 
+   Every time wait is called the cound variable is decremented to mean
+   that there is a process requiring access. The negative number of the 
+   cout variable means the number of processes waiting fot the resource. */
+void semWait( semaphore s )
+{
+	a.count--;
+	if( s.count < 0 )
+	{
+		// put this process in the queue
+		// block this process
+	}
+}
+
+
+/*  A process that has finished to used the shared resource controled
+    by the semaphore has to signal the end of use. It makes one process
+    in the waiting queue to be granted access to the resource. It is as if
+    the process that just finished, was saying to the next process that it 
+    can start to use the resource. 
+*/
+void semSignal( semaphore e )
+{
+	a.count++;
+	if( s.count > 0 )
+	{
+		// remove a process from the s.queue
+		// put the process in the ready queue
+	}
+
+}

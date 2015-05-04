@@ -1,0 +1,38 @@
+/* mutual exclusion using IPC: message passing */
+
+/* Method to enforce mutual exlusion using Interprocess Communication. 
+   Assuming blocking receive and nonblocking send prmitives. 
+
+   The send and receive are primitive types used for the synchronization 
+   of the processes trying to use the same resource. */
+
+const int n = /* number of processes */
+
+void p( int i)
+{
+	message msg;
+	while( true )
+	{
+	    /* a process tries to access the mailbox and get the message. 
+	       The message works like a ticket to access a resource. If there is
+	       a message in the mailbox, the process is allowed to access the resource.
+	       Otherwise, the process is blocked and has to wait. */
+		receive( box, msg );   
+
+		/* critical section */
+
+		/* After using the message asa a ticket to access the resource, the process
+		   has to put the message back in the mailbox. So, other processes can have 
+		   access to the resource. */
+		send( box, msg );
+		
+		/* rest of the code */
+	}
+}
+
+void main()
+{
+	createMailbox( box );
+	send( box, null )                        // initialize the mailbox with null
+	parbegin( p( 1 ), p( 2 ), ...p( nn) );   // each process tries to access the mailbox
+}

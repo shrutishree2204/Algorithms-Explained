@@ -1,0 +1,24 @@
+/* mutual exclusion using semaphores */
+
+/* 	Extracted from Operating Systems. Internals and Design Principles.
+	7th Edition. William Stallings */
+
+const int n = /* number of processes */
+semaphore s = 1;
+
+void process( int i )
+{
+	while( true )
+	{
+		semWait( s );
+		/* critical section */
+		semSignal( s );
+		/* rest of the code */
+	}
+}
+
+void main()
+{
+	parbegin( process( 1 ), process( 2 ), ..., process( n ));
+}
+
